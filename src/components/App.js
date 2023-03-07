@@ -3,11 +3,19 @@ import '../styles/App.scss';
 
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState('');
 
   const handleClickBtn = (ev) => {
     ev.preventDefault();
     setNumberOfErrors(numberOfErrors + 1);
   };
+
+  const handleChangeLastLetter = (ev) => { //el valor del if tiene q ser el value en este caso, xq se coge el valor q se escribe en el input
+    if( ev.target.value === ''  || ev.target.value.search(  /[a-zñáéíóúü]/i  ) === 0 ) {
+      setLastLetter(ev.target.value);// /[a-zñaeiou]/ es una expresión reservada, donde i es un modificador q indica q da igual q las letras se pongan en mayúsculas o minúsculas.
+    }
+  };
+
   return (
     <div className="page">
       <header>
@@ -51,6 +59,8 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              onChange={handleChangeLastLetter}
+              value={lastLetter}
             />
             <button onClick={handleClickBtn} className="buttom">
               Incrementar
