@@ -4,6 +4,19 @@ import '../styles/App.scss';
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
+  const [word, setWord] = useState('pepino');
+ // const [userLetters, setUserLetters] = useState([{},{}]);  //este es un array relleno
+ //array vacio
+ //array de estado (spread)  setseries([...series]); 
+
+  const [userLetters, setUserLetters] = useState([]);
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    return wordLetters.map((eachWord, index) => {
+      return <li key= {index} className="letter">{eachWord}</li>
+    })
+  }
 
   const handleClickBtn = (ev) => {
     ev.preventDefault();
@@ -25,17 +38,8 @@ function App() {
         <section>
           <div className="solution">
             <h2 className="title">Solución:</h2>
-            <ul className="letters">
-              <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li>
+            <ul className="letters" >{renderSolutionLetters()}
+             
             </ul>
           </div>
           <div className="error">
