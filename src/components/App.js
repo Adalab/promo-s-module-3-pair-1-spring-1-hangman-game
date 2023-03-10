@@ -5,27 +5,75 @@ function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
   const [word, setWord] = useState('pepino');
- // const [userLetters, setUserLetters] = useState([{},{}]);  //este es un array relleno
- //array vacio
- //array de estado (spread)  setseries([...series]); 
+  // const [userLetters, setUserLetters] = useState([{},{}]);  //este es un array relleno
+  //array vacio
+  //array de estado (spread)  setseries([...series]);
 
   const [userLetters, setUserLetters] = useState([]);
 
   const renderSolutionLetters = () => {
     const wordLetters = word.split('');
-    return wordLetters.map((eachWord, index) => {
-      return <li key= {index} className="letter">{eachWord}</li>
-    })
-  }
 
+    return wordLetters.map((eachWord, index) => {
+      if (userLetters.includes(eachWord)) {
+        return (
+          <li key={index} className="letter">
+            {eachWord}
+          </li>
+        );
+      } else {
+        return <li key={index} className="letter"></li>;
+      }
+    });
+  };
+  const renderErrorLetters = () => {
+    const errorLetters = word.split('');
+
+    return wordLetters.map((eachWord, index) => {
+      if (userLetters.includes(eachWord)) {
+        return (
+        .filter((eachWord))
+        )
+        
+        <li key={index} className="letter"></li>;
+      } else {
+        return (
+          <li key={index} className="letter">
+            {eachWord}
+          </li>
+        );
+      }
+    });
+  };
+  /*const renderErrorLetters = () => {
+    const errorLetters = userLetters.filter(
+      (letter) =>
+        word.toLocaleLowerCase().includes(letter.toLocaleLowerCase()) === false
+    );
+    return errorLetters.map((letter, index) => {
+      return (
+        <li key={index} className='letter'>
+          {letter}
+        </li>
+      );
+    });
+  };*/
+
+  
   const handleClickBtn = (ev) => {
     ev.preventDefault();
     setNumberOfErrors(numberOfErrors + 1);
   };
 
-  const handleChangeLastLetter = (ev) => { //el valor del if tiene q ser el value en este caso, xq se coge el valor q se escribe en el input
-    if( ev.target.value === ''  || ev.target.value.search(  /[a-zñáéíóúü]/i  ) === 0 ) {
-      setLastLetter(ev.target.value);// /[a-zñaeiou]/ es una expresión reservada, donde i es un modificador q indica q da igual q las letras se pongan en mayúsculas o minúsculas.
+  const handleChangeLastLetter = (ev) => {
+    //el valor del if tiene q ser el value en este caso, xq se coge el valor q se escribe en el input
+    if (ev.target.value.search(/[a-zñáéíóúü]/i) === 0) {
+      setLastLetter(ev.target.value);
+      // /[a-zñaeiou]/ es una expresión reservada, donde i es un modificador q indica q da igual q las letras se pongan en mayúsculas o minúsculas.
+
+      setUserLetters([...userLetters, ev.target.value]);
+    } else {
+      setLastLetter('');
     }
   };
 
@@ -38,19 +86,11 @@ function App() {
         <section>
           <div className="solution">
             <h2 className="title">Solución:</h2>
-            <ul className="letters" >{renderSolutionLetters()}
-             
-            </ul>
+            <ul className="letters">{renderSolutionLetters()}</ul>
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
-            <ul className="letters">
-              <li className="letter">f</li>
-              <li className="letter">q</li>
-              <li className="letter">h</li>
-              <li className="letter">p</li>
-              <li className="letter">x</li>
-            </ul>
+            <ul className="letters">{renderErrorLetters()}</ul>
           </div>
           <form className="form">
             <label className="title" htmlFor="last-letter">
