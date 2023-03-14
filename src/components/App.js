@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/App.scss';
+import getWordFromApi from '../services/api';
 
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
@@ -10,6 +11,12 @@ function App() {
   //array de estado (spread)  setseries([...series]);
 
   const [userLetters, setUserLetters] = useState([]);
+
+  useEffect(() => {
+    getWordFromApi().then((word) => {
+      setWord(word);
+    });
+  }, []);
 
   const renderSolutionLetters = () => {
     const wordLetters = word.split('');
@@ -26,40 +33,21 @@ function App() {
       }
     });
   };
-  const renderErrorLetters = () => {
-    const errorLetters = word.split('');
 
-    return wordLetters.map((eachWord, index) => {
-      if (userLetters.includes(eachWord)) {
-        return (
-        .filter((eachWord))
-        )
-        
-        <li key={index} className="letter"></li>;
-      } else {
-        return (
-          <li key={index} className="letter">
-            {eachWord}
-          </li>
-        );
-      }
-    });
-  };
-  /*const renderErrorLetters = () => {
+  const renderErrorLetters = () => {
     const errorLetters = userLetters.filter(
       (letter) =>
         word.toLocaleLowerCase().includes(letter.toLocaleLowerCase()) === false
     );
     return errorLetters.map((letter, index) => {
       return (
-        <li key={index} className='letter'>
+        <li key={index} className="letter">
           {letter}
         </li>
       );
     });
-  };*/
+  };
 
-  
   const handleClickBtn = (ev) => {
     ev.preventDefault();
     setNumberOfErrors(numberOfErrors + 1);
